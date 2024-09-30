@@ -252,7 +252,7 @@ async def main():
     human_readable_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
     response = {
-        "location": "WLZ",
+        "location": "REGION",
         "request_type": "http",
         "received_time": received_time,
         "system_timezone": tz.zone,
