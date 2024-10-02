@@ -309,6 +309,14 @@ async def connect_to_zenoh(broker_address: str):
         "mode": "client",
         "connect": {
             "endpoints": [server_url]  # Use the server URL set by the user
+        },
+        "transport": {
+            "unicast": {
+                "lowlatency": True,
+                "qos": {
+                    "enabled": False,
+                },
+            },
         }
     }
     zenoh_session = zenoh.open(conf)
