@@ -66,8 +66,8 @@ async def connect_to_mec_mqtt(server_url: str) -> str:
 # MQTT Callbacks
 def on_mqtt_message(client, userdata, msg):
     mqtt_replier_reception_time = time.time()
-    data = msg.payload.decode()
-    print(f"MQTT Replier Received Message: {data}")
+    # data = msg.payload.decode()
+    print(f"MQTT Replier Received Message:")
 
     # Create a response
     response = {
@@ -91,8 +91,8 @@ def on_mqtt_connect(client, userdata, flags, rc):
 # MQTT MEC Callbacks
 def on_mqtt_message_mec(client, userdata, msg):
     mqtt_replier_reception_time = time.time()
-    data = msg.payload.decode()
-    print(f"MEC MQTT Replier Received Message: {data}")
+    # data = msg.payload.decode()
+    print(f"MEC MQTT Replier Received Message")
 
     # Create a response
     response = {
@@ -141,7 +141,7 @@ async def connect_to_cloud_nats(server_url: str) -> str:
                 nats_replier_reception_time = time.time()
                 print("#####################")
                 print("RECEIVED new message")
-                print(msg)
+                # print(msg)
                 subject = msg.subject
                 reply = msg.reply
                 data = msg.data.decode()
@@ -195,8 +195,8 @@ async def connect_to_mec_nats(server_url: str) -> str:
             await nc_mec.connect(f"nats://{server_url}:4222")
             async def mec_message_handler(msg):
                 nats_replier_reception_time = time.time()
-                data = msg.data.decode()
-                print(f"MEC: Received via NATS client: {data}")
+                # data = msg.data.decode()
+                print(f"MEC: Received via NATS client.")
                 response = {
                         "nats_server_location": "MEC",
                         "replier_location": "MEC",
@@ -227,14 +227,26 @@ async def connect_to_mec_nats(server_url: str) -> str:
 
 
 
-@app.get("/service_request/")
-async def service_request(message: str):
+# @app.get("/service_request/")
+# async def service_request(message: str):
+#     received_time = time.time()
+#     response = {
+#                 "request_type": "http",
+#                 "received_time": received_time,
+#                 }
+#     # Convert dictionary to JSON string
+#     return response
+
+@app.post("/service_request/")
+async def service_request(message: dict):
+    print("MESSAGE RECEIVED")
     received_time = time.time()
     response = {
                 "request_type": "http",
                 "received_time": received_time,
                 }
     # Convert dictionary to JSON string
+    print("SENDING HTTP RESPONSE")
     return response
 
 @app.on_event("shutdown")
